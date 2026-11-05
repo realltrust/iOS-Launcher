@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Playground - Multiplication Chart</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .logo-icon {
+            display: flex;
+            width: 28px;
+            height: 28px;
+            position: relative;
+        }
+
+        /* Abstract geometric logo matching the original */
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 24px solid #3ca5dd;
+            transform: rotate(-45deg);
+        }
+
+        .logo-text {
+            font-size: 14px;
+            font-weight: 900;
+            color: #1a1a1a;
+            letter-spacing: 0.5px;
+        }
+
+        .main-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #231f20;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* Grid System */
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            padding: 18px 0;
+            border-radius: 2px;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Color Mapping from image_eac747.jpg */
+        .col-1 { background-color: #ffc107; }
+        .col-2 { background-color: #ffeb3b; }
+        .col-3 { background-color: #8bc34a; }
+        .col-4 { background-color: #4caf50; }
+        .col-5 { background-color: #81c784; }
+        .col-6 { background-color: #4dd0e1; }
+        .col-7 { background-color: #4fc3f7; }
+        .col-8 { background-color: #64b5f6; }
+        .col-9 { background-color: #7986cb; }
+        .col-10 { background-color: #9575cd; }
+
+        /* Equation Row Styling */
+        .row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            width: 85%;
+            font-size: 18px;
+            font-weight: 800;
+            color: #231f20;
+            line-height: 1.55;
+            text-align: center;
+        }
+
+        .row .left-num { text-align: right; }
+        .row .sign { text-align: center; padding: 0 4px; }
+        .row .right-num { text-align: center; }
+        .row .equals { text-align: center; padding: 0 4px; }
+        .row .result { text-align: left; }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            font-size: 8px;
+            font-weight: 800;
+            color: #a0a0a0;
+            align-self: flex-end;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 650px) {
+            .matrix-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .main-title {
+                font-size: 26px;
+            }
+            .row {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chart-container">
+        <!-- Logo Header -->
+        <div class="header">
+            <div class="logo-text">CLASS PLAYGROUND</div>
+        </div>
+        <h1 class="main-title">Multiplication</h1>
+
+        <!-- Top Row (1-5) -->
+        <div class="matrix-grid">
+            <!-- Table 1 -->
+            <div class="column col-1">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">1</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${1*i}</span></div>`);
+                    }
+                </script>
+            </div>
+            <!-- Table 2 -->
+            <div class="column col-2">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">2</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${2*i}</span></div>`);
+                    }
+                </script>
+            </div>
+            <!-- Table 3 -->
+            <div class="column col-3">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">3</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${3*i}</span></div>`);
+                    }
+                </script>
+            </div>
+            <!-- Table 4 -->
+            <div class="column col-4">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">4</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${4*i}</span></div>`);
+                    }
+                </script>
+            </div>
+            <!-- Table 5 -->
+            <div class="column col-5">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">5</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${5*i}</span></div>`);
+                    }
+                </script>
+            </div>
+        </div>
+
+        <!-- Bottom Row (6-10) -->
+        <div class="matrix-grid">
+            <!-- Table 6 -->
+            <div class="column col-6">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">6</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${6*i}</span></div>`);
+                    }
+                </script>
+            </div>
+            <!-- Table 7 -->
+            <div class="column col-7">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">7</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${7*i}</span></div>`);
+                    }
+                </script>
+            </div>
+            <!-- Table 8 -->
+            <div class="column col-8">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">8</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${8*i}</span></div>`);
+                    }
+                </script>
+            </div>
+            <!-- Table 9 -->
+            <div class="column col-9">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">9</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${9*i}</span></div>`);
+                    }
+                </script>
+            </div>
+            <!-- Table 10 -->
+            <div class="column col-10">
+                <script>
+                    for(let i=1; i<=9; i++) {
+                        document.write(`<div class="row"><span class="left-num">10</span><span class="sign">×</span><span class="right-num">${i}</span><span class="equals">=</span><span class="result">${10*i}</span></div>`);
+                    }
+                </script>
+            </div>
+        </div>
+
+        <!-- Fine Print Footer -->
+        <div class="footer">&copy; Class Playground</div>
+    </div>
+
+</body>
+</html>

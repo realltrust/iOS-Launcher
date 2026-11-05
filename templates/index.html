@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procedural Math Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: #05070c;
+            --bg-card: rgba(13, 17, 28, 0.75);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #00f2fe;
+            --accent-blue: #4facfe;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dark: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            /* Sci-fi CSS Grid Background */
+            background-image: 
+                linear-gradient(rgba(0, 242, 254, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 254, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: center;
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        /* Studio Wrapper */
+        .studio-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 
+                        0 0 40px rgba(0, 242, 254, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle top ambient glow */
+        .studio-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-blue), transparent);
+        }
+
+        /* Header Layout */
+        .header-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-cyan);
+            background: rgba(0, 242, 254, 0.08);
+            padding: 4px 12px;
+            border-radius: 100px;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        /* Suggestions chips */
+        .chips-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chip:hover {
+            background: rgba(0, 242, 254, 0.05);
+            border-color: rgba(0, 242, 254, 0.3);
+            color: var(--text-main);
+        }
+
+        /* Control Input Area */
+        .input-group {
+            display: flex;
+            background: rgba(5, 7, 12, 0.6);
+            border: 1px solid var(--border-color);
+            padding: 6px;
+            border-radius: 14px;
+            gap: 8px;
+            margin-bottom: 32px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-group:focus-within {
+            border-color: rgba(0, 242, 254, 0.4);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
+        }
+
+        input[type="text"] {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        input[type="text"]::placeholder {
+            color: var(--text-dark);
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+            color: #05070c;
+            border: none;
+            padding: 0 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
+        }
+
+        button:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #1e293b;
+            color: var(--text-dark);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        /* Viewport / Video Display Display */
+        .video-box {
+            width: 100%;
+            aspect-ratio: 16 / 10; /* Modern cinematic aspect ratio */
+            background: #05070c;
+            border-radius: 16px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        .placeholder-text {
+            color: var(--text-dark);
+            font-size: 15px;
+            text-align: center;
+            padding: 20px;
+            max-width: 80%;
+            font-weight: 500;
+        }
+
+        /* Premium CSS Loader */
+        .loader-wrapper {
+            display: none;
+            text-align: center;
+        }
+
+        .loader-ring {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 242, 254, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent-cyan);
+            margin: 0 auto 16px auto;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader {
+            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 640px) {
+            .studio-container { padding: 24px; }
+            .input-group { flex-direction: column; background: transparent; border: none; padding: 0; }
+            input[type="text"] { background: rgba(5, 7, 12, 0.6); border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 8px; }
+            button { padding: 14px; border-radius: 10px; }
+            h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="studio-container">
+    <div class="header-section">
+        <span class="badge">Trigonometric Render Engine</span>
+        <h1>Procedural Math Studio</h1>
+        <p class="description">Generate procedural video synthesis using pure computational matrices.</p>
+        
+        <div class="chips-container">
+            <span class="chip" onclick="applySuggestion('church choir')">✨ church choir</span>
+            <span class="chip" onclick="applySuggestion('disco dancer')">🕺 disco dancer</span>
+            <span class="chip" onclick="applySuggestion('golden flower')">🌻 golden flower</span>
+        </div>
+    </div>
+    
+    <div class="input-group">
+        <input type="text" id="promptInput" placeholder="Describe the matrix visualization geometry...">
+        <button id="genBtn" onclick="triggerCompilation()">Compile Matrix</button>
+    </div>
+
+    <div class="video-box">
+        <div id="placeholder" class="placeholder-text">
+            Studio idle. Input prompt coordinates above to begin generation.
+        </div>
+        
+        <div id="loader" class="loader-wrapper">
+            <div class="loader-ring"></div>
+            <div class="loader">Computing trigonometry frames & frequencies...</div>
+        </div>
+        
+        <video id="videoPlayer" controls loop></video>
+    </div>
+</div>
+
+<script>
+    // UX Helper to handle clicking suggestion tags
+    function applySuggestion(text) {
+        const input = document.getElementById('promptInput');
+        input.value = text;
+        input.focus();
+    }
+
+    async function triggerCompilation() {
+        const promptInput = document.getElementById('promptInput');
+        const genBtn = document.getElementById('genBtn');
+        const placeholder = document.getElementById('placeholder');
+        const loader = document.getElementById('loader');
+        const videoPlayer = document.getElementById('videoPlayer');
+
+        if (!promptInput.value.trim()) return alert("Please enter a prompt first!");
+
+        // Update UI State for rendering process
+        genBtn.disabled = true;
+        placeholder.style.display = 'none';
+        videoPlayer.style.display = 'none';
+        loader.style.display = 'block';
+
+        try {
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: promptInput.value })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Point video tag to the fresh file and update cache-busting timestamp
+                videoPlayer.src = data.video_url;
+                loader.style.display = 'none';
+                videoPlayer.style.display = 'block';
+                videoPlayer.play();
+            } else {
+                alert("Compilation engine ran into a matrix anomaly.");
+                resetUI();
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Failed to connect to backend engine.");
+            resetUI();
+        } finally {
+            genBtn.disabled = false;
+        }
+    }
+
+    function resetUI() {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('placeholder').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

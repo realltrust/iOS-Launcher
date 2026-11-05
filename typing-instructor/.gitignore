@@ -1,0 +1,15 @@
+node_modules/
+dist/
+release/
+.DS_Store
+*.log
+
+# generated icons (regenerate via: npm run make:icon)
+build/icon.png
+electron/icon.png
+public/favicon-16.png
+public/favicon-32.png
+public/favicon.ico
+public/apple-touch-icon.png
+public/icon-192.png
+public/icon-512.png

@@ -1,0 +1,81 @@
+import { BrowserRouter, Routes, Route, NavLink, Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Lessons from './pages/Lessons';
+import LessonPlayer from './pages/LessonPlayer';
+import Tests from './pages/Tests';
+import Games from './pages/Games';
+import Reports from './pages/Reports';
+import Certificates from './pages/Certificates';
+import Teacher from './pages/Teacher';
+
+const NAV = [
+  { to: '/', label: 'Dashboard' },
+  { to: '/lessons', label: 'Lessons' },
+  { to: '/tests', label: 'Tests' },
+  { to: '/games', label: 'Games' },
+  { to: '/reports', label: 'Reports' },
+  { to: '/certificates', label: 'Certificates' },
+];
+
+export default function App() {
+  const { user, guest } = useAuth();
+  const location = useLocation();
+
+  if (!user && !guest) return <Login />;
+
+  return (
+    <div className="min-h-screen flex flex-col md:flex-row">
+      <aside className="md:w-60 bg-white dark:bg-slate-800 shadow-md p-4 flex md:flex-col gap-2 overflow-x-auto">
+        <div className="font-bold text-blue-700 dark:text-blue-400 mb-4 whitespace-nowrap">Typing Instructor</div>
+        {NAV.map((n) => (
+          <NavLink key={n.to} to={n.to} end={n.to === '/'}
+            className={({ isActive }) =>
+              `rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap ${isActive ? 'bg-blue-600 text-white' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+            {n.label}
+          </NavLink>
+        ))}
+        {(user?.role === 'teacher' || user?.role === 'admin') && (
+          <NavLink to="/teacher" className={({ isActive }) =>
+            `rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap ${isActive ? 'bg-blue-600 text-white' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+            Teacher
+          </NavLink>
+        )}
+        <div className="md:mt-auto pt-4">
+          <LogoutButton />
+        </div>
+      </aside>
+
+      <main className="flex-1 p-4 md:p-8 max-w-6xl w-full mx-auto">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/lessons" element={<Lessons />} />
+          <Route path="/lessons/:id" element={<LessonPlayer />} />
+          <Route path="/tests" element={<Tests />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/certificates" element={<Certificates />} />
+          <Route path="/teacher" element={<Teacher />} />
+          <Route path="*" element={<Navigate to="/" replace state={{ from: location.pathname }} />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
+
+function LogoutButton() {
+  const { logout, user, guest, setTheme } = useAuth();
+  return (
+    <div className="space-y-2">
+      <div className="text-xs text-slate-500 truncate">{user ? user.username : 'Guest'}</div>
+      {user && (
+        <button onClick={() => setTheme(user.settings.theme === 'dark' ? 'light' : 'dark')}
+          className="w-full rounded-lg bg-slate-100 dark:bg-slate-700 px-3 py-1.5 text-xs font-medium">
+          {user.settings.theme === 'dark' ? 'Light mode' : 'Dark mode'}
+        </button>
+      )}
+      <button onClick={logout} className="w-full rounded-lg bg-red-100 text-red-700 px-3 py-1.5 text-xs font-semibold">Sign out</button>
+    </div>
+  );
+}

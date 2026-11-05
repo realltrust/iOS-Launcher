@@ -1,0 +1,49 @@
+export type Finger =
+  | 'lp' | 'lr' | 'lm' | 'li' | 'th' | 'ri' | 'rm' | 'rr' | 'rp';
+
+export const FINGER_COLORS: Record<Finger, string> = {
+  lp: '#f87171', lr: '#fb923c', lm: '#facc15', li: '#4ade80',
+  th: '#94a3b8', ri: '#2dd4bf', rm: '#60a5fa', rr: '#a78bfa', rp: '#f472b6',
+};
+
+export const FINGER_LABELS: Record<Finger, string> = {
+  lp: 'Left pinky', lr: 'Left ring', lm: 'Left middle', li: 'Left index',
+  th: 'Thumb', ri: 'Right index', rm: 'Right middle', rr: 'Right ring', rp: 'Right pinky',
+};
+
+const FINGER: Record<string, Finger> = {
+  '`': 'lp', '1': 'lp', q: 'lp', a: 'lp', z: 'lp',
+  '2': 'lr', w: 'lr', s: 'lr', x: 'lr',
+  '3': 'lm', e: 'lm', d: 'lm', c: 'lm',
+  '4': 'li', '5': 'li', r: 'li', t: 'li', f: 'li', g: 'li', v: 'li', b: 'li',
+  '6': 'ri', '7': 'ri', y: 'ri', u: 'ri', h: 'ri', j: 'ri', n: 'ri', m: 'ri',
+  '8': 'rm', i: 'rm', k: 'rm', ',': 'rm',
+  '9': 'rr', o: 'rr', l: 'rr', '.': 'rr',
+  '0': 'rp', '-': 'rp', '=': 'rp', p: 'rp', '[': 'rp', ']': 'rp',
+  '\\': 'rp', ';': 'rp', "'": 'rp', '/': 'rp',
+  ' ': 'th',
+};
+
+export const fingerOf = (key: string): Finger | undefined => FINGER[key];
+
+export interface KeyDef { label: string; code: string; wide?: number; special?: boolean; }
+
+export const LAYOUTS: Record<string, KeyDef[][]> = {
+  qwerty: [
+    ['`','1','2','3','4','5','6','7','8','9','0','-','='].map(c => ({ label: c, code: c }))
+      .concat([{ label: 'Backspace', code: 'Backspace', wide: 2, special: true }]),
+    [{ label: 'Tab', code: 'Tab', wide: 1.5, special: true },
+      ...'qwertyuiop'.split('').map(c => ({ label: c, code: c })),
+      { label: '[', code: '[' }, { label: ']', code: ']' },
+      { label: '\\', code: '\\', wide: 1.5 }],
+    [{ label: 'Caps', code: 'CapsLock', wide: 1.8, special: true },
+      ...'asdfghjkl'.split('').map(c => ({ label: c, code: c })),
+      { label: ';', code: ';' }, { label: "'", code: "'" },
+      { label: 'Enter', code: 'Enter', wide: 2.2, special: true }],
+    [{ label: 'Shift', code: 'ShiftLeft', wide: 2.2, special: true },
+      ...'zxcvbnm'.split('').map(c => ({ label: c, code: c })),
+      { label: ',', code: ',' }, { label: '.', code: '.' }, { label: '/', code: '/' },
+      { label: 'Shift', code: 'ShiftRight', wide: 2.2, special: true }],
+    [{ label: 'Space', code: ' ', wide: 9 }],
+  ],
+};
